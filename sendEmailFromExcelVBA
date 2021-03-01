@@ -1,0 +1,38 @@
+'#VBA to send emails
+
+
+Sub Send_Emails(CaseNumber As String)
+'This code is early binding i.e in Tools > Reference >You have check "MICROSOFT OUTLOOK OBJECT LIBRARY"
+
+  Dim OutlookApp As Outlook.Application
+  Dim OutlookMail As Outlook.MailItem
+
+  Set OutlookApp = New Outlook.Application
+  Set OutlookMail = OutlookApp.CreateItem(olMailItem)
+ 
+  With OutlookMail
+    .BodyFormat = olFormatHTML
+    .Display
+    .HTMLBody = "Dear ABC" & "<br>" & "<br>" & "Please find the case" & _
+    .HTMLBody
+    'last .HTMLBody includes signature from the outlook.
+''<br> includes line breaks b/w two lines
+    .To = "abc@gmail44.com"
+    .Subject = "Test mail Case#" & CaseNumber
+   
+    .Send
+  End With
+
+End Sub
+
+Sub WrapperSendEMails()
+
+Dim CaseNumber As String
+Dim NumberOfEmails as Integer
+NumberOfEmails=10
+For iCtr = 1 To NumberOfEmails
+    CaseNumber = Right("00000" & iCtr, 5)
+    Call Send_Emails(CaseNumber)
+Next
+
+End Sub
